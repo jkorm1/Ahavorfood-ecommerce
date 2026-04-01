@@ -228,7 +228,7 @@ export function Hero() {
           className="relative w-64 h-64 md:w-80 md:h-80 my-8 md:my-12 animate-spin-smooth z-20"
         >
           <Image
-            src="/ultimate-popcorn.jpg"
+            src="/ultimate-popcorn-hero.png"
             alt="Ultimate Starpops - Premium Popcorn"
             fill
             className="object-cover rounded-full shadow-2xl glow-gold"

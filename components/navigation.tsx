@@ -44,7 +44,7 @@ export function Navigation() {
             Team
           </button>
           <Button
-            onClick={() => handleScroll("order")}
+            onClick={() => handleScroll("products")}
             className="bg-primary hover:bg-primary/90"
           >
             Order Now
@@ -53,7 +53,7 @@ export function Navigation() {
 
         <div className="md:hidden">
           <Button
-            onClick={() => handleScroll("order")}
+            onClick={() => handleScroll("products")}
             className="bg-primary hover:bg-primary/90 text-sm"
           >
             Order
