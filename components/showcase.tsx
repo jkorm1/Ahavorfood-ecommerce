@@ -75,7 +75,7 @@ const showcaseImages = [
 const showcaseVideos = [
   {
     id: 1,
-    src: "/video1.mov",
+    src: "/video1.MOV",
     thumbnail: "/thumbnail1.jpg",
     title: "Ahavor Magic",
     description:
