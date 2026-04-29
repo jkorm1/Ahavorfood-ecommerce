@@ -29,7 +29,7 @@ const showcaseImages = [
   },
   {
     id: 4,
-    src: "/enjoy2.jpg",
+    src: "/.jpg",
     alt: "Happy customers with Tombrown",
     category: "Lifestyle",
     featured: false,

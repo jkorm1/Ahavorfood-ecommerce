@@ -14,7 +14,7 @@ const products = [
     id: "tombrown",
     name: "Ahavor Tombrown",
     price: 25,
-    image: "/ahavortombrown.jpg",
+    image: "/tombuy.png",
     description:
       "Made with Soya Beans, Wheat, Rice, and Milk. A nutritious blend for a healthy start to your day.",
     // flavors array is no longer needed
