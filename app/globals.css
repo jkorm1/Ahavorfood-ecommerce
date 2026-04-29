@@ -4,74 +4,72 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(0.12 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.15 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.72 0.156 49);
-  --primary-foreground: oklch(0.12 0 0);
-  --secondary: oklch(0.63 0.212 316);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.35 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.62 0.185 263);
-  --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.25 0 0);
-  --input: oklch(0.22 0 0);
-  --ring: oklch(0.62 0.185 263);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* Ahavor Foods Brand Colors */
+  /* Background: Milkish Cream with texture */
+  --background: #FDFBF7; 
+  --foreground: #2D2D2D; /* Dark Grey for text */
+  
+  /* Cards: White/Cream */
+  --card: #FFFFFF;
+  --card-foreground: #2D2D2D;
+  
+  --popover: #FFFFFF;
+  --popover-foreground: #2D2D2D;
+  
+  /* Primary: Rich Burnt-Orange (#A04000) for buttons/accents */
+  --primary: #A04000;
+  --primary-foreground: #FFFFFF;
+  
+  /* Secondary: Deep Brand Teal (#006064) for navbars */
+  --secondary: #006064;
+  --secondary-foreground: #FFFFFF;
+  
+  /* Muted: Soft cream */
+  --muted: #F4EBE0;
+  --muted-foreground: #666666;
+  
+  /* Accent: Gold/Orange for highlights */
+  --accent: #FF8F00;
+  --accent-foreground: #FFFFFF;
+  
+  /* Destructive: Red */
+  --destructive: #D32F2F;
+  --destructive-foreground: #FFFFFF;
+  
+  --border: #E8DCCF;
+  --input: #F4EBE0;
+  --ring: #A04000;
+  
+  /* Large border-radius for organic feel */
+  --radius: 1.5rem;
 }
 
 .dark {
-  --background: oklch(0.12 0 0);
-  --foreground: oklch(0.95 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.95 0 0);
-  --popover: oklch(0.15 0 0);
-  --popover-foreground: oklch(0.95 0 0);
-  --primary: oklch(0.72 0.156 49);
-  --primary-foreground: oklch(0.12 0 0);
-  --secondary: oklch(0.63 0.212 316);
-  --secondary-foreground: oklch(0.95 0 0);
-  --muted: oklch(0.35 0 0);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.62 0.185 263);
-  --accent-foreground: oklch(0.95 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.25 0 0);
-  --input: oklch(0.22 0 0);
-  --ring: oklch(0.62 0.185 263);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  /* Dark Mode Adaptation - Keeping Teal and Orange but darkening background */
+  --background: #121212;
+  --foreground: #FDFBF7;
+  --card: #1E1E1E;
+  --card-foreground: #FDFBF7;
+  --popover: #1E1E1E;
+  --popover-foreground: #FDFBF7;
+  
+  /* Lighter Orange for dark mode visibility */
+  --primary: #FF8F00; 
+  --primary-foreground: #121212;
+  
+  /* Lighter Teal */
+  --secondary: #4DD0E1;
+  --secondary-foreground: #121212;
+  
+  --muted: #2C2C2C;
+  --muted-foreground: #AAAAAA;
+  --accent: #FFB74D;
+  --accent-foreground: #121212;
+  --destructive: #EF5350;
+  --destructive-foreground: #FFFFFF;
+  --border: #333333;
+  --input: #2C2C2C;
+  --ring: #FF8F00;
 }
 
 @theme inline {
@@ -124,32 +122,41 @@
   }
   body {
     @apply bg-background text-foreground;
+    /* Milky Texture Background */
+    background-color: #FDFBF7;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(28,100%,74%,0.2) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(189,100%,56%,0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(28,100%,74%,0.15) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(189,100%,56%,0.1) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, hsla(28,100%,74%,0.05) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+  
+  /* Rounded Sans-serif Fonts */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+    font-family: 'Nunito', 'sans-serif'; /* Assuming Nunito or similar rounded font is available, fallback to sans-serif */
   }
 }
 
 @layer components {
-  .glow-gold {
-    @apply shadow-[0_0_60px_rgba(184,134,11,0.4)];
+  /* Syntax Highlighting Styles (if code is displayed) */
+  .code-keyword { color: #006064; font-weight: bold; } /* Teal */
+  .code-variable { color: #A04000; } /* Burnt Orange */
+  .code-string { color: #800000; } /* Matte Maroon */
+
+  /* Organic Glow Effects - Adjusted for Brand Colors */
+  .glow-primary {
+    @apply shadow-[0_0_30px_rgba(160,64,0,0.3)];
   }
   
-  .glow-pink {
-    @apply shadow-[0_0_60px_rgba(236,72,153,0.4)];
-  }
-  
-  .glow-blue {
-    @apply shadow-[0_0_60px_rgba(59,130,246,0.4)];
+  .glow-secondary {
+    @apply shadow-[0_0_30px_rgba(0,96,100,0.3)];
   }
 
-  .glow-text-gold {
-    @apply text-yellow-400 drop-shadow-[0_0_20px_rgba(184,134,11,0.6)];
-  }
-
-  .glow-text-pink {
-    @apply text-pink-400 drop-shadow-[0_0_20px_rgba(236,72,153,0.6)];
-  }
-
-  .glow-text-blue {
-    @apply text-blue-400 drop-shadow-[0_0_20px_rgba(59,130,246,0.6)];
+  .glow-text-primary {
+    @apply text-primary drop-shadow-[0_0_10px_rgba(160,64,0,0.4)];
   }
 }
 

@@ -7,9 +7,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Starpops - Premium Specialty Popcorn",
+  title: "Ahavor Foods - Nourishing Lives. Empowering Futures.",
   description:
-    "Experience the magic of premium specialty popcorn. Handcrafted flavors in three exquisite varieties.",
+    "Ahavor Foods produces nutritious, affordable, and culturally rooted food products like Tombrown to support healthy living and sustainable impact.",
   generator: "v0.app",
   icons: {
     icon: [
@@ -31,10 +31,10 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: "/qrlogo.png", // Replace this with the actual path to your logo image
+        url: "/ahavor-logo.png",
         width: 1200,
         height: 630,
-        alt: "Starpops Logo",
+        alt: "Ahavor Foods Logo",
       },
     ],
   },
@@ -48,6 +48,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
+        {/* Ahavor Watermark - Fixed, Unscrollable, Subtle */}
+        <div className="fixed inset-0 z-[-1] flex items-center justify-center pointer-events-none select-none overflow-hidden">
+          <div className="relative w-[80vw] h-[80vw] md:w-[60vw] md:h-[60vw] opacity-[0.04] flex items-center justify-center">
+            <img
+              src="placeholder-logo.png"
+              alt="Ahavor Watermark"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
+
         {children}
         <Analytics />
       </body>

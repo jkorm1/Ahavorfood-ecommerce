@@ -8,64 +8,64 @@ import { Play, X, Heart, Share2, Volume2, VolumeX } from "lucide-react";
 const showcaseImages = [
   {
     id: 1,
-    src: "/image1.jpg",
-    alt: "Elegant popcorn presentation",
+    src: "/christiann.jpg",
+    alt: "Elegant Tombrown presentation",
     category: "Product",
     featured: true,
   },
   {
     id: 2,
     src: "/enjoy1.jpg",
-    alt: "People enjoying Starpops popcorn",
+    alt: "People enjoying Ahavor Tombrown",
     category: "Lifestyle",
     featured: false,
   },
   {
     id: 3,
-    src: "/image2.jpg",
-    alt: "Premium popcorn varieties",
+    src: "/tombrown2.jpg",
+    alt: "Premium Tombrown varieties",
     category: "Product",
     featured: false,
   },
   {
     id: 4,
     src: "/enjoy2.jpg",
-    alt: "Happy customers with popcorn",
+    alt: "Happy customers with Tombrown",
     category: "Lifestyle",
     featured: false,
   },
   {
     id: 5,
-    src: "/image3.jpg",
-    alt: "Artistic popcorn arrangement",
+    src: "/oat1.jpg",
+    alt: "Artistic Oat arrangement",
     category: "Product",
     featured: false,
   },
   {
     id: 6,
     src: "/enjoy3.jpg",
-    alt: "Couple sharing popcorn",
+    alt: "Family sharing Tombrown",
     category: "Lifestyle",
     featured: false,
   },
   {
     id: 7,
-    src: "/image4.jpg",
-    alt: "Couple sharing popcorn",
+    src: "/oat2.jpg",
+    alt: "Healthy Oat breakfast",
     category: "Lifestyle",
     featured: false,
   },
   {
     id: 8,
     src: "/enjoy5.jpg",
-    alt: "Couple sharing popcorn",
+    alt: "Students enjoying Oat",
     category: "Lifestyle",
     featured: false,
   },
   {
     id: 9,
     src: "/enjoy6.jpg",
-    alt: "Couple sharing popcorn",
+    alt: "Morning routine with Ahavor",
     category: "Lifestyle",
     featured: false,
   },
@@ -77,37 +77,30 @@ const showcaseVideos = [
     id: 1,
     src: "/video1.mov",
     thumbnail: "/thumbnail1.jpg",
-    title: "Starpops Magic",
-    description: "Experience the enchanting journey of our premium popcorn.",
+    title: "Ahavor Magic",
+    description:
+      "Experience the enchanting journey of our nutritious Tombrown.",
   },
   {
     id: 2,
-    src: "/video3.mov",
-    thumbnail: "/thumbnail3.jpg",
+    src: "/video2.mov",
+    thumbnail: "/thumbnail2.jpg",
     title: "Flavor Explosion",
-    description: "Discover the unique flavors that make Starpops special.",
+    description: "Discover the unique flavors that make Ahavor special.",
   },
   {
     id: 3,
-    src: "/video2.mov",
-    thumbnail: "/thumbnail2.jpg",
+    src: "/video3.mov",
+    thumbnail: "/thumbnail3.jpg",
     title: "Crafting Perfection",
-    description: "Watch our artisans create the perfect popcorn with passion.",
+    description: "Watch our artisans create perfect meals with passion.",
   },
   {
     id: 4,
-    src: "/video3.mov",
-    thumbnail: "/thumbnail3.jpg",
-    title: "Flavor Explosion",
-    description: "Discover the unique flavors that make Starpops special.",
-  },
-  {
-    id: 5,
     src: "/video4.mov",
     thumbnail: "/thumbnail4.jpg",
-    title: "Joy in Every Kernel",
-    description:
-      "Real stories from our customers experiencing the Starpops magic.",
+    title: "Healthy Living",
+    description: "See how Ahavor supports a healthy lifestyle.",
   },
 ];
 
@@ -182,13 +175,17 @@ export function Showcase() {
   };
 
   return (
-    <section ref={containerRef} className="py-24 px-6 relative overflow-hidden">
+    <section
+      ref={containerRef}
+      id="showcase"
+      className="py-24 px-6 relative overflow-hidden"
+    >
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background"></div>
 
       {/* Animated background elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-primary/5 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-pink-500/5 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-tl from-secondary/5 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
@@ -198,12 +195,15 @@ export function Showcase() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            Experience <span className="glow-text-gold">Starpops</span>
+          <h2
+            className="text-5xl md:text-6xl font-bold mb-6 text-secondary"
+            style={{ fontFamily: "Nunito, sans-serif" }}
+          >
+            Experience <span className="text-primary">Ahavor</span>
           </h2>
           <p className="text-muted-foreground text-xl max-w-2xl mx-auto leading-relaxed">
-            Discover the art of popcorn. Each kernel tells a story of passion,
-            craftsmanship, and pure joy.
+            Discover the art of nutrition. Every grain tells a story of passion,
+            craftsmanship, and pure health.
           </p>
         </motion.div>
 
@@ -223,17 +223,21 @@ export function Showcase() {
               <span className="inline-block px-4 py-1 mb-4 text-sm font-medium bg-primary/80 text-white rounded-full">
                 Featured
               </span>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                The Art of Popcorn
+              <h3
+                className="text-3xl md:text-4xl font-bold text-white mb-4"
+                style={{ fontFamily: "Nunito, sans-serif" }}
+              >
+                The Art of Nutrition
               </h3>
-              <p className="text-white/80 text-lg max-w-2xl">
-                Each batch of Starpops is crafted with meticulous attention to
-                detail, ensuring every kernel delivers an explosion of flavor.
-              </p>
             </div>
+            <p className="text-white/80 text-lg max-w-2xl">
+              Each pack of Ahavor Tombrown is crafted with meticulous attention
+              to detail, ensuring every spoon delivers an explosion of
+              nutrition.
+            </p>
           </motion.div>
 
-          {/* Layered images behind the main image */}
+          {/* Layered images behind: main image */}
           <motion.div
             style={{ y: y2 }}
             className="absolute -top-8 -right-8 w-64 h-64 rounded-2xl overflow-hidden shadow-xl z-0 hidden md:block"
@@ -264,9 +268,10 @@ export function Showcase() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold mb-12 text-center"
+            className="text-3xl font-bold mb-12 text-center text-secondary"
+            style={{ fontFamily: "Nunito, sans-serif" }}
           >
-            Moments of <span className="text-primary">Joy</span>
+            Moments of <span className="text-primary">Health</span>
           </motion.h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -320,12 +325,15 @@ export function Showcase() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h3 className="text-4xl md:text-5xl font-bold mb-4">
-              Experience <span className="text-primary">Starpops Magic</span>
+            <h3
+              className="text-4xl md:text-5xl font-bold mb-4 text-secondary"
+              style={{ fontFamily: "Nunito, sans-serif" }}
+            >
+              Experience <span className="text-primary">Ahavor Magic</span>
             </h3>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
               Watch how our passion transforms simple ingredients into
-              extraordinary moments
+              extraordinary moments of health
             </p>
           </motion.div>
 

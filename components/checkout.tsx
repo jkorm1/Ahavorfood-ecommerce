@@ -18,6 +18,7 @@ export function Checkout() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [contact, setContact] = useState("");
+  const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -39,12 +40,11 @@ export function Checkout() {
         name: name,
         phone: contact,
         address: location,
+        email: email,
       },
       note: note,
       items: items.map((item) => ({
-        // Combines category and flavor with a hyphen, e.g., "Starter-Caramel"
-        name: `${item.categoryName} ${item.flavor}`,
-        // Adds 'Q' prefix to quantity, e.g., "Q3"
+        name: `${item.categoryName} `,
         quantity: `=${item.quantity}`,
       })),
 
@@ -95,7 +95,10 @@ export function Checkout() {
         transition={{ duration: 0.6 }}
         className="text-center mb-12"
       >
-        <h2 className="text-4xl md:text-5xl font-bold mb-2">
+        <h2
+          className="text-4xl md:text-5xl font-bold mb-2 text-secondary"
+          style={{ fontFamily: "Nunito, sans-serif" }}
+        >
           Your <span className="text-primary">Order</span>
         </h2>
         <p className="text-muted-foreground">
@@ -111,21 +114,28 @@ export function Checkout() {
           transition={{ duration: 0.6 }}
           className="md:col-span-2"
         >
-          <Card className="p-6 border-2 border-primary/30">
-            <h3 className="text-xl font-bold mb-4">Order Items</h3>
+          <Card className="p-6 border-2 border-primary/20 rounded-3xl shadow-sm bg-card">
+            <h3
+              className="text-xl font-bold mb-4 text-secondary"
+              style={{ fontFamily: "Nunito, sans-serif" }}
+            >
+              Order Items
+            </h3>
             <div className="space-y-3 mb-6">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between items-center p-3 bg-muted/50 rounded-lg"
+                  className="flex justify-between items-center p-4 bg-muted/50 rounded-2xl"
                 >
                   <div>
-                    <p className="font-semibold">{item.categoryName}</p>
+                    <p className="font-semibold text-secondary">
+                      {item.categoryName}
+                    </p>
                     <p className="text-sm text-muted-foreground">
-                      {item.flavor} × {item.quantity}
+                      {item.quantity}
                     </p>
                   </div>
-                  <p className="font-bold">
+                  <p className="font-bold text-primary">
                     {(item.price * item.quantity).toFixed(2)} CEDIS
                   </p>
                 </div>
@@ -134,7 +144,7 @@ export function Checkout() {
 
             <div className="border-t border-border pt-4">
               <div className="flex justify-between items-center">
-                <p className="text-lg font-bold">Total:</p>
+                <p className="text-lg font-bold text-secondary">Total:</p>
                 <p className="text-3xl font-bold text-primary">
                   {total.toFixed(2)} CEDIS
                 </p>
@@ -149,62 +159,83 @@ export function Checkout() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Card className="p-6 border-2 border-primary/30">
-            <h3 className="text-xl font-bold mb-4">Your Details</h3>
+          <Card className="p-6 border-2 border-secondary/20 rounded-3xl shadow-sm bg-card">
+            <h3
+              className="text-xl font-bold mb-4 text-secondary"
+              style={{ fontFamily: "Nunito, sans-serif" }}
+            >
+              Your Details
+            </h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="text-sm font-semibold block mb-2">Name</label>
+                <label className="text-sm font-semibold block mb-2 text-secondary">
+                  Name
+                </label>
                 <Input
                   type="text"
                   placeholder="Your name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full rounded-full border-border focus:border-primary"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold block mb-2">
+                <label className="text-sm font-semibold block mb-2 text-secondary">
                   Location
                 </label>
                 <Input
                   type="text"
-                  placeholder="e.g. Evandy Hostel, Room 6"
+                  placeholder="e.g. KNUST, Kumasi"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full rounded-full border-border focus:border-primary"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold block mb-2">
+                <label className="text-sm font-semibold block mb-2 text-secondary">
                   Contact
                 </label>
                 <Input
                   type="tel"
-                  placeholder="Phone number or WhatsApp"
+                  placeholder="Phone number"
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full"
+                  className="w-full rounded-full border-border focus:border-primary"
                   required
                 />
               </div>
 
               <div>
-                <label className="text-sm font-semibold block mb-2">
+                <label className="text-sm font-semibold block mb-2 text-secondary">
+                  Email
+                </label>
+                <Input
+                  type="email"
+                  placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubmitting}
+                  className="w-full rounded-full border-border focus:border-primary"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold block mb-2 text-secondary">
                   Order Note (Optional)
                 </label>
                 <textarea
-                  placeholder="Any special requests or delivery instructions?"
+                  placeholder="Any special requests?"
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
                   disabled={isSubmitting}
-                  className="w-full px-3 py-2 rounded-md bg-input border border-border focus:border-primary outline-none transition-colors resize-none text-sm"
+                  className="w-full px-4 py-3 rounded-2xl bg-input border border-border focus:border-primary outline-none transition-colors resize-none text-sm"
                   rows={3}
                 />
               </div>
@@ -212,7 +243,8 @@ export function Checkout() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-primary hover:bg-primary/90 font-semibold py-6 text-lg"
+                className="w-full bg-primary hover:bg-primary/90 font-bold py-6 text-lg rounded-full shadow-glow-primary transition-all"
+                style={{ fontFamily: "Nunito, sans-serif" }}
               >
                 {isSubmitting ? "Submitting..." : "Complete Order"}
               </Button>

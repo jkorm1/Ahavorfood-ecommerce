@@ -1,6 +1,8 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { google } from "googleapis"
 import { JWT } from "google-auth-library"
+import { sendOrderNotification } from "@/lib/twilio"
+
 
 async function getSheetsClient() {
   const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS
@@ -40,6 +42,7 @@ export async function POST(request: NextRequest) {
       orderDate,
       orderData.customer.name,
       orderData.customer.phone,
+       orderData.customer.email,
       orderData.customer.address,
       JSON.stringify(orderData.items),
       orderData.total,
@@ -55,6 +58,8 @@ export async function POST(request: NextRequest) {
       requestBody: { values: [orderRow] },
       insertDataOption: "INSERT_ROWS",
     })
+    // Send SMS notification using the separated function
+await sendOrderNotification(orderData, orderId)
 
     // Check if customer already exists in Customers sheet
     const customersResponse = await sheets.spreadsheets.values.get({

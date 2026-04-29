@@ -49,11 +49,11 @@ export function Hero() {
     element?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Dominant popcorn cups with toppings
+  // Tombrown/Grain themed floating items
   const floatingItems = [
-    // Large dominant popcorn cups
+    // Grains
     {
-      emoji: "🍿",
+      emoji: "🌾",
       delay: 0,
       duration: 6,
       x: "8%",
@@ -61,7 +61,7 @@ export function Hero() {
       size: "lg" as const,
     },
     {
-      emoji: "🍿",
+      emoji: "🌾",
       delay: 0.4,
       duration: 7.2,
       x: "50%",
@@ -69,7 +69,7 @@ export function Hero() {
       size: "lg" as const,
     },
     {
-      emoji: "🍿",
+      emoji: "🌾",
       delay: 0.8,
       duration: 6.8,
       x: "85%",
@@ -77,7 +77,7 @@ export function Hero() {
       size: "lg" as const,
     },
     {
-      emoji: "🍿",
+      emoji: "🌾",
       delay: 0.2,
       duration: 7.5,
       x: "20%",
@@ -85,7 +85,7 @@ export function Hero() {
       size: "lg" as const,
     },
     {
-      emoji: "🍿",
+      emoji: "🌾",
       delay: 0.6,
       duration: 6.5,
       x: "70%",
@@ -93,9 +93,9 @@ export function Hero() {
       size: "lg" as const,
     },
 
-    // Medium popcorn cups
+    // Cereal/Bowl
     {
-      emoji: "🍿",
+      emoji: "🥣",
       delay: 1,
       duration: 8,
       x: "35%",
@@ -103,7 +103,7 @@ export function Hero() {
       size: "md" as const,
     },
     {
-      emoji: "🍿",
+      emoji: "🥣",
       delay: 1.5,
       duration: 6.5,
       x: "65%",
@@ -111,7 +111,7 @@ export function Hero() {
       size: "md" as const,
     },
     {
-      emoji: "🍿",
+      emoji: "🥣",
       delay: 0.3,
       duration: 7.5,
       x: "12%",
@@ -119,9 +119,9 @@ export function Hero() {
       size: "md" as const,
     },
 
-    // Toppings - smaller
+    // Ingredients - smaller
     {
-      emoji: "🍓",
+      emoji: "🥜",
       delay: 0.2,
       duration: 7.2,
       x: "10%",
@@ -129,7 +129,7 @@ export function Hero() {
       size: "sm" as const,
     },
     {
-      emoji: "🟡",
+      emoji: "🫘",
       delay: 0.7,
       duration: 6.9,
       x: "45%",
@@ -137,7 +137,7 @@ export function Hero() {
       size: "sm" as const,
     },
     {
-      emoji: "🍬",
+      emoji: "🌽",
       delay: 1.1,
       duration: 7.5,
       x: "75%",
@@ -145,7 +145,7 @@ export function Hero() {
       size: "sm" as const,
     },
     {
-      emoji: "🔴",
+      emoji: "🍠",
       delay: 0.4,
       duration: 6.6,
       x: "25%",
@@ -153,7 +153,7 @@ export function Hero() {
       size: "sm" as const,
     },
     {
-      emoji: "🟠",
+      emoji: "🥛",
       delay: 0.9,
       duration: 7.3,
       x: "90%",
@@ -161,7 +161,7 @@ export function Hero() {
       size: "sm" as const,
     },
     {
-      emoji: "🟢",
+      emoji: "🍯",
       delay: 0.5,
       duration: 7,
       x: "15%",
@@ -176,15 +176,15 @@ export function Hero() {
       className="relative min-h-screen pt-20 flex items-center justify-center overflow-hidden w-full"
       style={{ position: "relative" }}
     >
-      {/* Background gradient */}
+      {/* Background gradient - Ahavor Teal/Orange mix */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-background/80"></div>
 
-      {/* Animated background glow orbs */}
-      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-yellow-500/15 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-pink-500/15 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
-      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-gradient-to-bl from-blue-500/15 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
+      {/* Animated background glow orbs - Brand Colors */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-br from-primary/10 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-tl from-secondary/10 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
+      <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-gradient-to-bl from-accent/10 to-transparent rounded-full filter blur-3xl animate-pulse-glow"></div>
 
-      {/* Flying popcorn background */}
+      {/* Flying background items */}
       <div className="absolute inset-0 overflow-hidden">
         {floatingItems.map((item, idx) => (
           <FloatingItem
@@ -199,7 +199,7 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Main content - Vertical layout with image between text */}
+      {/* Main content */}
       <div className="relative z-20 w-full h-full flex flex-col items-center justify-center px-4 py-8 md:py-12">
         {/* Top - Branding */}
         <motion.div
@@ -208,30 +208,35 @@ export function Hero() {
           transition={{ duration: 0.8 }}
           className="text-center mb-6 md:mb-8 z-30"
         >
-          <h2 className="text-5xl md:text-7xl font-bold mb-2">
-            <span className="glow-text-gold">STAR</span>
-            <span className="glow-text-pink">POPS</span>
+          <h2
+            className="text-5xl md:text-7xl font-bold mb-2"
+            style={{ color: "#800000", fontFamily: "Nunito, sans-serif" }}
+          >
+            AHAVOR FOODS
           </h2>
-          <p className="text-xl md:text-2xl text-primary font-semibold italic mb-2">
-            Feel the pops!
+          <p
+            className="text-xl md:text-2xl text-primary font-semibold italic mb-2"
+            style={{ fontFamily: "Nunito, sans-serif" }}
+          >
+            Nourishing Lives.
           </p>
-          <p className="text-base md:text-lg text-muted-foreground">
-            🍿 Premium Specialty Popcorn House
+          <p className="text-base md:text-lg text-secondary font-medium">
+            Empowering Futures.
           </p>
         </motion.div>
 
-        {/* Middle - Hero Image - Spinning Popcorn */}
+        {/* Middle - Hero Image - Tombrown Package/Product */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-64 h-64 md:w-80 md:h-80 my-8 md:my-12 animate-spin-smooth z-20"
+          className="relative w-64 h-64 md:w-80 md:h-80 my-8 md:my-12 animate-float z-20"
         >
           <Image
-            src="/ultimate-popcorn-hero.png"
-            alt="Ultimate Starpops - Premium Popcorn"
+            src="/ahavortombrown.jpg" // Placeholder for Tombrown product image
+            alt="Ahavor Tombrown - Nutritious Cereal"
             fill
-            className="object-cover rounded-full shadow-2xl glow-gold"
+            className="object-contain drop-shadow-2xl"
             priority
             loading="eager"
           />
@@ -247,12 +252,13 @@ export function Hero() {
           <Button
             onClick={() => scrollToSection("products")}
             size="lg"
-            className="bg-primary hover:bg-primary/90 text-white font-bold text-xl md:text-3xl px-12 md:px-16 py-7 md:py-10 rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105 active:scale-95"
+            className="bg-primary hover:bg-primary/90 text-white font-bold text-xl md:text-3xl px-12 md:px-16 py-7 md:py-10 rounded-full shadow-glow-primary transition-all duration-300 transform hover:scale-105 active:scale-95"
+            style={{ fontFamily: "Nunito, sans-serif" }}
           >
             ORDER NOW
           </Button>
-          <p className="text-sm md:text-base text-muted-foreground mt-6 opacity-80 max-w-md">
-            Experience the Magic of Every Kernel
+          <p className="text-sm md:text-base text-muted-foreground mt-6 opacity-80 max-w-md font-medium italic">
+            A great way to start your Day!
           </p>
         </motion.div>
       </div>
