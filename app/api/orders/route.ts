@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       insertDataOption: "INSERT_ROWS",
     })
     // Send SMS notification using the separated function
-await sendOrderNotification(orderData, orderId)
+    await sendOrderNotification(orderData, orderId)
 
     // Check if customer already exists in Customers sheet
     const customersResponse = await sheets.spreadsheets.values.get({
