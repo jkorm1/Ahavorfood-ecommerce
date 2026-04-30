@@ -10,6 +10,8 @@ const CEO = {
   image: "/christian.jpg",
 };
 
+const TEAM_IMAGE = "/show6.jpg"; // 替换为实际的图片路径
+
 const heads = [
   {
     name: "Adu Kofi Owusu",
@@ -240,6 +242,23 @@ export function Team() {
             ))}
           </div>
         </div>
+
+        {/* Team Banner Image */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="mt-16 w-full"
+        >
+          <div className="relative w-full h-auto min-h-[300px] md:min-h-[400px] overflow-hidden rounded-3xl">
+            <img
+              src={TEAM_IMAGE}
+              alt="Team Banner"
+              className="w-full h-auto object-contain"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+          </div>
+        </motion.div>
 
         {/* Contact Info */}
         <motion.div
