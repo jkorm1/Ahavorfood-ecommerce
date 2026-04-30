@@ -1,5 +1,12 @@
 "use client";
-import { Phone, Mail, MapPin } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Linkedin,
+  Instagram,
+  Facebook,
+} from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -100,15 +107,15 @@ export function Footer() {
 
           <div>
             <h4 className="font-bold mb-4 text-secondary">Connect</h4>
-            <ul className="space-y-2 text-sm text-muted-foreground">
+            <ul className="flex gap-4">
               <li>
                 <a
                   href="https://www.linkedin.com/company/ahavor-foods/posts/?feedView=all"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors"
+                  className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
                 >
-                  LinkedIn
+                  <Linkedin className="w-5 h-5" />
                 </a>
               </li>
               <li>
@@ -116,9 +123,9 @@ export function Footer() {
                   href="https://www.instagram.com/ahavor_foods/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors"
+                  className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
                 >
-                  Instagram
+                  <Instagram className="w-5 h-5" />
                 </a>
               </li>
               <li>
@@ -126,9 +133,9 @@ export function Footer() {
                   href="#"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-primary transition-colors"
+                  className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
                 >
-                  Facebook
+                  <Facebook className="w-5 h-5" />
                 </a>
               </li>
             </ul>

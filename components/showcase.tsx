@@ -1,6 +1,11 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { Play, X, Heart, Share2, Volume2, VolumeX } from "lucide-react";
 
@@ -107,6 +112,7 @@ const showcaseVideos = [
 export function Showcase() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  const [featuredExpanded, setFeaturedExpanded] = useState(false);
   const [videoSoundEnabled, setVideoSoundEnabled] = useState<
     Record<number, boolean>
   >({});
@@ -133,12 +139,10 @@ export function Showcase() {
 
           if (video) {
             if (entry.isIntersecting) {
-              // Play video without sound when in view
               video.play().catch((error) => {
                 console.error("Error auto-playing video:", error);
               });
             } else {
-              // Pause video when out of view
               video.pause();
             }
           }
@@ -156,7 +160,6 @@ export function Showcase() {
     };
   }, []);
 
-  // Toggle sound for a specific video
   const toggleVideoSound = (videoId: number, event: React.MouseEvent) => {
     event.stopPropagation();
     const video = videoRefs.current[videoId];
@@ -169,7 +172,6 @@ export function Showcase() {
     }
   };
 
-  // Open video in modal with sound enabled
   const openVideoModal = (videoSrc: string) => {
     setSelectedVideo(videoSrc);
   };
@@ -207,7 +209,7 @@ export function Showcase() {
           </p>
         </motion.div>
 
-        {/* Featured Image with Layered Effect */}
+        {/* Featured Image with Flip-up Text */}
         <div className="mb-32 relative">
           <motion.div
             style={{ y: y1, opacity }}
@@ -218,22 +220,53 @@ export function Showcase() {
               alt={showcaseImages[0].alt}
               className="w-full h-auto object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+
+            {/* Always-visible gradient + badge + title */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
               <span className="inline-block px-4 py-1 mb-4 text-sm font-medium bg-primary/80 text-white rounded-full">
                 Featured
               </span>
+
+              {/* Clickable title */}
               <h3
-                className="text-3xl md:text-4xl font-bold text-white mb-4"
+                className="text-3xl md:text-4xl font-bold text-white mb-4 cursor-pointer select-none inline-flex items-center gap-3 hover:text-primary/90 transition-colors duration-200"
                 style={{ fontFamily: "Nunito, sans-serif" }}
+                onClick={() => setFeaturedExpanded((prev) => !prev)}
               >
                 The Art of Nutrition
+                <motion.span
+                  animate={{ rotate: featuredExpanded ? 180 : 0 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="text-2xl text-white/70"
+                >
+                  ↑
+                </motion.span>
               </h3>
-              <p className="text-white/80 text-lg max-w-2xl">
-                Each pack of Ahavor Tombrown is crafted with meticulous
-                attention to detail, ensuring every spoon delivers an explosion
-                of nutrition.
-              </p>
+
+              {/* Flip-up description */}
+              <AnimatePresence initial={false}>
+                {featuredExpanded && (
+                  <motion.div
+                    key="featured-desc"
+                    initial={{ opacity: 0, y: 24, rotateX: -20 }}
+                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                    exit={{ opacity: 0, y: 24, rotateX: -20 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    style={{
+                      transformOrigin: "bottom center",
+                      perspective: 600,
+                    }}
+                  >
+                    <p className="text-white/80 text-lg max-w-2xl">
+                      Each pack of Ahavor Tombrown is crafted with meticulous
+                      attention to detail, ensuring every spoon delivers an
+                      explosion of nutrition.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
