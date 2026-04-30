@@ -70,7 +70,18 @@ export function Products() {
           transition={{ duration: 0.6 }}
           className="flex flex-col"
         >
-          <motion.div className="relative h-80 cursor-pointer overflow-hidden border-2 border-primary/30 hover:border-primary transition-all duration-300 rounded-3xl group shadow-lg">
+          <motion.div
+            className="relative h-80 cursor-pointer overflow-hidden border-2 border-primary/30 hover:border-primary transition-all duration-300 rounded-3xl group shadow-lg"
+            onClick={() => {
+              const orderForm = document.getElementById("order-form");
+              if (orderForm) {
+                orderForm.scrollIntoView({
+                  behavior: "smooth",
+                  block: "center",
+                });
+              }
+            }}
+          >
             <Image
               src={products[0].image}
               alt={products[0].name}
@@ -130,7 +141,10 @@ export function Products() {
 
         {/* Order Form - Always Visible */}
         <motion.div className="flex flex-col">
-          <Card className="p-6 bg-card border-2 border-primary/40 space-y-5 rounded-3xl shadow-md h-full">
+          <Card
+            id="order-form"
+            className="p-6 bg-card border-2 border-primary/40 space-y-5 rounded-3xl shadow-md h-full"
+          >
             {/* Product Info */}
             <div className="text-center mb-4">
               <h3

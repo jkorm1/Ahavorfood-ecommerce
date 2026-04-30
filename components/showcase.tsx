@@ -8,7 +8,7 @@ import { Play, X, Heart, Share2, Volume2, VolumeX } from "lucide-react";
 const showcaseImages = [
   {
     id: 1,
-    src: "/christiann.jpg",
+    src: "/sam.jpg",
     alt: "Elegant Tombrown presentation",
     category: "Product",
     featured: true,
@@ -29,7 +29,7 @@ const showcaseImages = [
   },
   {
     id: 4,
-    src: "/.jpg",
+    src: "/sam.jpg",
     alt: "Happy customers with Tombrown",
     category: "Lifestyle",
     featured: false,
@@ -211,12 +211,12 @@ export function Showcase() {
         <div className="mb-32 relative">
           <motion.div
             style={{ y: y1, opacity }}
-            className="relative z-10 rounded-3xl overflow-hidden shadow-2xl"
+            className="relative z-30 rounded-3xl overflow-hidden shadow-2xl"
           >
             <img
               src={showcaseImages[0].src}
               alt={showcaseImages[0].alt}
-              className="w-full h-[600px] object-cover"
+              className="w-full h-auto object-contain"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -229,35 +229,12 @@ export function Showcase() {
               >
                 The Art of Nutrition
               </h3>
+              <p className="text-white/80 text-lg max-w-2xl">
+                Each pack of Ahavor Tombrown is crafted with meticulous
+                attention to detail, ensuring every spoon delivers an explosion
+                of nutrition.
+              </p>
             </div>
-            <p className="text-white/80 text-lg max-w-2xl">
-              Each pack of Ahavor Tombrown is crafted with meticulous attention
-              to detail, ensuring every spoon delivers an explosion of
-              nutrition.
-            </p>
-          </motion.div>
-
-          {/* Layered images behind: main image */}
-          <motion.div
-            style={{ y: y2 }}
-            className="absolute -top-8 -right-8 w-64 h-64 rounded-2xl overflow-hidden shadow-xl z-0 hidden md:block"
-          >
-            <img
-              src={showcaseImages[1].src}
-              alt={showcaseImages[1].alt}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-
-          <motion.div
-            style={{ y: y2 }}
-            className="absolute -bottom-8 -left-8 w-64 h-64 rounded-2xl overflow-hidden shadow-xl z-0 hidden md:block"
-          >
-            <img
-              src={showcaseImages[2].src}
-              alt={showcaseImages[2].alt}
-              className="w-full h-full object-cover"
-            />
           </motion.div>
         </div>
 
