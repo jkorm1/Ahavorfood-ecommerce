@@ -16,7 +16,7 @@ const products = [
     price: 25,
     image: "/tombuy.png",
     description:
-      "Made with Soya Beans, Wheat, Rice, and Milk. A nutritious blend for a healthy start to your day.",
+      "Made with Soya Beans, Wheat, and Rice. A nutritious blend for a healthy start to your day.",
     // flavors array is no longer needed
   },
 ];
@@ -71,7 +71,7 @@ export function Products() {
           className="flex flex-col"
         >
           <motion.div
-            className="relative h-80 cursor-pointer overflow-hidden border-2 border-primary/30 hover:border-primary transition-all duration-300 rounded-3xl group shadow-lg"
+            className="relative h-80 cursor-pointer overflow-hidden border-2 border-primary/30 hover:border-primary transition-all duration-300 rounded-3xl group shadow-sm"
             onClick={() => {
               const orderForm = document.getElementById("order-form");
               if (orderForm) {
@@ -88,14 +88,15 @@ export function Products() {
               fill
               className="object-cover group-hover:scale-105 transition-transform duration-300"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-secondary/90 via-secondary/40 to-transparent flex flex-col justify-end p-6">
+
+            <div className="absolute inset-0 bg-gradient-to-t from-secondary/40 via-secondary/10 to-transparent flex flex-col justify-end p-6">
               <h3
-                className="text-3xl font-bold text-white mb-2"
+                className="text-3xl font-bold text-secondary mb-2"
                 style={{ fontFamily: "Nunito, sans-serif" }}
               >
                 {products[0].name}
               </h3>
-              <p className="text-accent text-2xl font-bold mb-2">
+              <p className="text-primary text-2xl font-bold mb-2">
                 GHS {products[0].price.toFixed(2)}
               </p>
 
