@@ -72,7 +72,11 @@ function MemberCard({ member, size = "md", delay = 0 }) {
     >
       <div
         className={`bg-card border border-border rounded-3xl shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center text-center p-5 group ${
-          isLg ? "w-64" : isSm ? "w-44" : "w-52"
+          isLg
+            ? "w-full max-w-64"
+            : isSm
+              ? "w-full max-w-44"
+              : "w-full max-w-52"
         }`}
       >
         {/* Avatar(s) */}

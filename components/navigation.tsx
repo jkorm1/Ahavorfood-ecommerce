@@ -5,18 +5,30 @@ import { motion } from "framer-motion";
 import { ShoppingCart, Menu, X } from "lucide-react";
 import { useCart } from "@/hooks/use-cart";
 import { useState } from "react";
+import Link from "next/link";
 
 export function Navigation() {
   const items = useCart((state) => state.items);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleScroll = (id: string) => {
+    // If current page is not the homepage, navigate to homepage first
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      window.location.href = `/#${id}`;
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
     const element = document.getElementById(id);
     element?.scrollIntoView({ behavior: "smooth", block: "start" });
     setIsMobileMenuOpen(false);
   };
 
   const handleCartClick = () => {
+    if (typeof window !== "undefined" && window.location.pathname !== "/") {
+      window.location.href = "/#checkout";
+      return;
+    }
     handleScroll("checkout");
   };
 
@@ -61,6 +73,11 @@ export function Navigation() {
           >
             Showcase
           </button>
+          <Link href="/impact">
+            <button className="text-sm font-medium text-white/90 hover:text-secondary-foreground hover:bg-secondary/20 px-3 py-2 rounded-full transition-all">
+              Impact
+            </button>
+          </Link>
           <button
             onClick={() => handleScroll("updates")}
             className="text-sm font-medium text-white/90 hover:text-secondary-foreground hover:bg-secondary/20 px-3 py-2 rounded-full transition-all"
@@ -144,6 +161,11 @@ export function Navigation() {
             >
               Showcase
             </button>
+            <Link href="/impact">
+              <button className="text-left text-sm font-medium text-white/90 hover-text-nature hover-bg-nature px-3 py-2 rounded-full transition-all">
+                Impact
+              </button>
+            </Link>
             <button
               onClick={() => handleScroll("updates")}
               className="text-left text-sm font-medium text-white/90 hover-text-nature hover-bg-nature px-3 py-2 rounded-full transition-all"

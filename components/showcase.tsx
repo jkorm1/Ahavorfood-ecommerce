@@ -210,6 +210,7 @@ export function Showcase() {
         </motion.div>
 
         {/* Featured Image with Flip-up Text */}
+        {/* Featured Image with Flip-up Text */}
         <div className="mb-32 relative">
           <motion.div
             style={{ y: y1, opacity }}
@@ -224,14 +225,14 @@ export function Showcase() {
             {/* Always-visible gradient + badge + title */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-right">
               <span className="inline-block px-4 py-1 mb-4 text-sm font-medium bg-primary/80 text-white rounded-full">
                 Featured
               </span>
 
               {/* Clickable title */}
               <h3
-                className="text-3xl md:text-4xl font-bold text-white mb-4 cursor-pointer select-none inline-flex items-center gap-3 hover:text-primary/90 transition-colors duration-200"
+                className="text-3xl md:text-4xl font-bold text-white mb-4 cursor-pointer select-none inline-flex items-center gap-3 hover:text-primary/90 transition-colors duration-200 flex-row-reverse"
                 style={{ fontFamily: "Nunito, sans-serif" }}
                 onClick={() => setFeaturedExpanded((prev) => !prev)}
               >
@@ -255,11 +256,11 @@ export function Showcase() {
                     exit={{ opacity: 0, y: 24, rotateX: -20 }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     style={{
-                      transformOrigin: "bottom center",
+                      transformOrigin: "bottom right",
                       perspective: 600,
                     }}
                   >
-                    <p className="text-white/80 text-lg max-w-2xl">
+                    <p className="text-white/80 text-lg max-w-2xl ml-auto text-left">
                       Each pack of Ahavor Tombrown is crafted with meticulous
                       attention to detail, ensuring every spoon delivers an
                       explosion of nutrition.
