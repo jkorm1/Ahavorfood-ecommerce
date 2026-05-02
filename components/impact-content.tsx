@@ -15,7 +15,7 @@ export function ImpactContent() {
       title: "What's Next? Leadership Summit",
       subtitle: "Ghana Biochemistry Students Association",
       description:
-        "Last Wednesday, I had the privilege to speak at the 'WHAT'S NEXT?' Leadership Summit hosted by Ghana Biochemistry Students Association at KNUST. I spoke about entrepreneurship, leadership, and building something meaningful even while still in school. Seeing students listening, asking questions, and writing down ideas was truly encouraging. Moments like these remind me that impact is not only about building businesses, it's about building people.",
+        "Last Wednesday, our team had the privilege of speaking at the “WHAT’S NEXT?” Leadership Summit hosted by the Ghana Biochemistry Students Association at KNUST. We shared insights on entrepreneurship, leadership, and the importance of building something meaningful even while still in school. Watching students engage—listening attentively, asking thoughtful questions, and capturing ideas—was truly inspiring. For us, moments like these reinforce that impact goes beyond building businesses; it’s also about building people.",
       stats: "KNUST",
       images: [
         "/impact.png",
@@ -36,7 +36,7 @@ export function ImpactContent() {
       title: "KNUST Business School Leadership Talk",
       subtitle: "500+ Students Inspired",
       description:
-        "Grateful for the opportunity to speak to over 500 students of KNUST Business School. I shared on the importance of personal growth — developing the right mindset, building confidence, and intentionally growing your network. It was truly an impactful session, and I'm grateful for the chance to contribute to shaping the next generation of leaders and entrepreneurs.",
+        "We are grateful for the opportunity to speak to over 500 students of KNUST Business School. During the session, we shared insights on the importance of personal growth — cultivating the right mindset, building confidence, and intentionally expanding one’s network. It was truly impactful to engage with such a vibrant audience, and we value the chance to contribute to shaping the next generation of leaders and entrepreneurs.",
       stats: "500+",
       images: [
         "/impact9.jpg",
@@ -55,7 +55,7 @@ export function ImpactContent() {
       title: "Vice Chancellors Visit & Exchange",
       subtitle: "International Collaboration",
       description:
-        "Last Wednesday, I had the honour of hosting Vice Chancellors from public universities in Germany at my office. I shared the vision behind Ahavor Foods — our 'why' and what we're building. They were visiting through a collaboration with KNUST and the centre for business development to support impactful student businesses and create more opportunities for youth. Grateful for the moment — and excited for what's ahead.",
+        "Last Wednesday, we had the honour of hosting Vice Chancellors from public universities in Germany at our office. We shared the vision behind Ahavor Foods — our “why” and what we are building. Their visit, in collaboration with KNUST and the Centre for Business Development, was aimed at supporting impactful student businesses and creating more opportunities for youth. We are grateful for this moment and excited about what lies ahead.",
       stats: "Global",
       images: [
         "/impact14.png",
@@ -69,7 +69,7 @@ export function ImpactContent() {
       title: "KNUST Food Festival 2026",
       subtitle: "Ahavor Tombrown Experience",
       description:
-        "Last week, my team and I represented Ahavor at the KNUST Food Festival 2026, and it was an incredible experience. People tasted Ahavor Tombrown for the first time and genuinely fell in love with it. At the festival, we didn't just exhibit. We served. We shared. We let people experience Ahavor. Ahavor is more than food. It is vision. It is impact. It is purpose. Seeing people taste Ahavor Tombrown and light up with satisfaction is why we do what we do.",
+        "Last week, Ahavor proudly represented at the KNUST Food Festival 2026, and it was an incredible experience. Festival attendees tasted Ahavor Tombrown for the very first time — and the response was overwhelming. At the festival, we didn’t just exhibit; we served, we shared, and we let people truly experience Ahavor. Because Ahavor is more than food. It is vision. It is impact. It is purpose. Seeing people light up with satisfaction after tasting Ahavor Tombrown reminds us why we do what we do.",
       stats: "2026",
       images: ["/impact15.jpg", "/impact16.jpg", "/impact17.jpg"],
     },
