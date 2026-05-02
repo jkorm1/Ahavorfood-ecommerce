@@ -180,7 +180,7 @@ export function Navigation() {
             </button>
             <Button
               onClick={() => handleScroll("products")}
-              className="bg-secondary hover:bg-secondary/90 text-sm w-full rounded-full glow-secondary"
+              className="bg-primary hover:bg-secondary/90 text-sm w-full rounded-full glow-secondary"
             >
               Order Now
             </Button>
