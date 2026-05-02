@@ -258,7 +258,7 @@ export function Hero() {
             ORDER NOW
           </Button>
           <p className="text-sm md:text-base text-muted-foreground mt-6 opacity-80 max-w-md font-medium italic">
-            A great way to start your Day!
+            A great way to start your Day! 😃
           </p>
         </motion.div>
       </div>
