@@ -8,6 +8,7 @@ import {
 } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import { Play, X, Heart, Share2, Volume2, VolumeX } from "lucide-react";
+import { ImpactSlider } from "@/components/impact-slider";
 
 // Example high-quality images - replace with your actual images
 const showcaseImages = [
@@ -271,6 +272,8 @@ export function Showcase() {
             </div>
           </motion.div>
         </div>
+
+        <ImpactSlider />
 
         {/* Masonry-style Image Grid */}
         <div className="mb-32">

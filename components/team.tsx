@@ -199,14 +199,14 @@ export function Team() {
           {/* CEO → Heads connector */}
           <VLine height={32} />
           {/* Horizontal bar spanning the 3 heads */}
-          <div className="relative w-full max-w-4xl flex justify-center">
+          <div className="relative w-full max-w-4xl flex justify-center hidden md:flex">
             <div
               className="absolute top-0 border-t border-border"
               style={{ left: "16.67%", right: "16.67%" }}
             />
           </div>
           {/* Three drop lines */}
-          <div className="w-full max-w-4xl flex justify-around">
+          <div className="w-full max-w-4xl flex justify-around hidden md:flex">
             {heads.map((_, i) => (
               <div
                 key={i}
@@ -219,9 +219,12 @@ export function Team() {
           </div>
 
           {/* Level 2 – Department Heads */}
-          <div className="w-full max-w-4xl flex justify-around items-start gap-4">
+          <div className="w-full max-w-4xl flex flex-col md:flex-row justify-around items-start gap-4 md:gap-8">
             {heads.map((head, hi) => (
-              <div key={hi} className="flex flex-col items-center flex-1">
+              <div
+                key={hi}
+                className="flex flex-col items-center flex-1 w-full"
+              >
                 <MemberCard member={head} size="md" delay={0.1 + hi * 0.1} />
 
                 {/* Head → Members connector */}
@@ -230,7 +233,7 @@ export function Team() {
                     <VLine height={32} />
 
                     {/* Level 3 – Team Members */}
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="flex flex-wrap justify-center gap-3 md:gap-4 w-full px-2">
                       {head.members.map((member, mi) => (
                         <MemberCard
                           key={mi}
@@ -261,36 +264,6 @@ export function Team() {
               className="w-full h-auto object-contain"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-          </div>
-        </motion.div>
-
-        {/* Contact Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-20 text-center bg-card p-8 rounded-3xl border border-border shadow-sm max-w-2xl mx-auto"
-        >
-          <h3
-            className="text-2xl font-bold text-secondary mb-6"
-            style={{ fontFamily: "Nunito, sans-serif" }}
-          >
-            Contact Us
-          </h3>
-          <div className="space-y-4 text-muted-foreground">
-            <p className="font-medium text-foreground mb-4">Ahavor Foods</p>
-            <div className="flex items-center justify-center gap-3">
-              <MapPin className="w-5 h-5 text-primary" />
-              <p>KNUST, Kumasi – Ghana</p>
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <Phone className="w-5 h-5 text-primary" />
-              <p>0504984721</p>
-            </div>
-            <div className="flex items-center justify-center gap-3">
-              <Mail className="w-5 h-5 text-primary" />
-              <p>ahavorfoods@gmail.com</p>
-            </div>
           </div>
         </motion.div>
       </div>

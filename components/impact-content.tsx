@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 export function ImpactContent() {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const [currentFeaturedImage, setCurrentFeaturedImage] = useState(0);
+  // Auto-change featured image
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFeaturedImage((prev) => (prev + 1) % programs.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Program data with multiple images per program
   const programs = [
@@ -73,6 +82,20 @@ export function ImpactContent() {
       stats: "2026",
       images: ["/impact15.jpg", "/impact16.jpg", "/impact17.jpg"],
     },
+    {
+      id: 5,
+      title: "Sharing love to the less privileged",
+      subtitle: "Love and light",
+      description:
+        "We extended a helping hand to our less privileged brothers and sisters in the community by sharing our nutritious Tombrown product. We believe that true impact is not just about business success, but also about giving back and making a positive difference in the lives of others. Through this initiative, we were able to share love, light, hope, and nourishment with those who need it most. It was a humbling experience that reinforced our commitment to creating meaningful change beyond just building a business.",
+      stats: "Global",
+      images: [
+        "/impact42.jpg",
+        "/impact41.jpg",
+        "/impact40.jpg",
+        "/impact42.jpg",
+      ],
+    },
   ];
 
   const currentProgram =
@@ -82,36 +105,79 @@ export function ImpactContent() {
     <div className="min-h-screen relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
-          <h2
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary mb-6 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent"
-            style={{ fontFamily: "Nunito, sans-serif" }}
-          >
-            Our Impact Journey
-          </h2>
-          <p className="text-lg md:text-xl text-primary/90 max-w-3xl mx-auto leading-relaxed">
-            Transforming communities through meaningful programs, leadership,
-            and the power of authentic impact with Ahavor.
-          </p>
-        </motion.div>
 
         {/* Featured Large Image */}
+        {/* Featured Large Image - Full Screen */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-20 rounded-3xl overflow-hidden border border-white/20 backdrop-blur-sm"
+          className="relative w-full h-screen overflow-hidden"
         >
-          <img
-            src="/impact9.jpg"
-            alt="Featured impact image"
-            className="w-full h-96 md:h-[500px] object-cover hover:scale-105 transition-transform duration-500"
-          />
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentFeaturedImage}
+              src={programs[currentFeaturedImage].images[0]}
+              alt={programs[currentFeaturedImage].title}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 1, ease: "easeInOut" }}
+              className="w-full h-full object-cover"
+            />
+          </AnimatePresence>
+
+          {/* Dark overlay for text visibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
+
+          {/* Text Content */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+            <motion.div
+              key={`text-${currentFeaturedImage}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="max-w-4xl"
+            >
+              <h2
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6"
+                style={{ fontFamily: "Nunito, sans-serif" }}
+              >
+                Our Impact Journey
+              </h2>
+              <p className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+                Transforming communities through meaningful programs,
+                leadership, and the power of authentic impact with Ahavor.
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Image Indicators */}
+          <div className="absolute bottom-8 right-8 flex gap-2">
+            {programs.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentFeaturedImage(idx)}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  currentFeaturedImage === idx
+                    ? "bg-primary w-6"
+                    : "bg-white/50 hover:bg-white/80"
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          >
+            <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2">
+              <div className="w-1 h-3 bg-white/50 rounded-full" />
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Programs with Featured Images */}
