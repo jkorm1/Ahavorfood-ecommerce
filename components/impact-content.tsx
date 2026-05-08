@@ -64,10 +64,10 @@ export function ImpactContent() {
       title: "Vice Chancellors Visit & Exchange",
       subtitle: "International Collaboration",
       description:
-        "Last Wednesday, we had the honour of hosting Vice Chancellors from public universities in Germany at our office. We shared the vision behind Ahavor Foods — our “why” and what we are building. Their visit, in collaboration with KNUST and the Centre for Business Development, was aimed at supporting impactful student businesses and creating more opportunities for youth. We are grateful for this moment and excited about what lies ahead.",
+        "We had the honour of hosting Vice Chancellors from public universities in Germany at our office. We shared the vision behind Ahavor Foods — our “why” and what we are building. Their visit, in collaboration with KNUST and the Centre for Business Development, was aimed at supporting impactful student businesses and creating more opportunities for youth. We are grateful for this moment and excited about what lies ahead.",
       stats: "Global",
       images: [
-        "/impact14.png",
+        "/impact11.png",
         "/impact11.png",
         "/impact13.png",
         "/impact10.png",
@@ -112,7 +112,7 @@ export function ImpactContent() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative w-full h-screen overflow-hidden"
+          className="relative w-full h-screen overflow-hidden -mt-20"
         >
           <AnimatePresence mode="wait">
             <motion.img
@@ -230,6 +230,34 @@ export function ImpactContent() {
                       <div className="inline-flex items-center text-primary text-sm font-medium group-hover:gap-2 transition-all">
                         View Gallery & More Images
                         <ChevronRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </div>
+
+                      {/* Tiny Circular Thumbnails */}
+                      <div className="flex -space-x-3 mt-4">
+                        {program.images.slice(0, 5).map((img, idx) => (
+                          <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="relative"
+                          >
+                            <img
+                              src={img}
+                              alt={`${program.title} ${idx + 1}`}
+                              className="w-12 h-12 rounded-full border-2 border-white object-cover hover:scale-110 transition-transform cursor-pointer"
+                              onClick={() => {
+                                setSelectedProgram(programs.indexOf(program));
+                                setSelectedImageIndex(idx);
+                              }}
+                            />
+                          </motion.div>
+                        ))}
+                        {program.images.length > 5 && (
+                          <div className="w-12 h-12 rounded-full border-2 border-white bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">
+                            +{program.images.length - 5}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

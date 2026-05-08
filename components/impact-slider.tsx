@@ -19,7 +19,7 @@ const impactImages = [
   },
   {
     id: 3,
-    src: "/impact14.png",
+    src: "/impact11.png",
     alt: "Vice Chancellors Visit",
     title: "International Collaboration",
   },
