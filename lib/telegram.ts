@@ -11,8 +11,8 @@ export async function sendOrderNotification(orderData: OrderData, orderId: strin
   console.log("Order data:", JSON.stringify(orderData, null, 2))
 
   try {
-    const botToken = process.env.TELEGRAM_BOT_TOKEN
-    const chatId = process.env.TELEGRAM_CHAT_ID
+    const botToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN
+    const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID
     
     if (!botToken || !chatId) {
       console.warn("Telegram credentials not configured")
