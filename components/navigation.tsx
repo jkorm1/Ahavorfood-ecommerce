@@ -117,7 +117,7 @@ export function Navigation() {
           >
             <ShoppingCart className="w-5 h-5" />
             {items.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-accent text-white text-xs font-bold rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-secondary text-white text-xs font-bold rounded-full flex items-center justify-center">
                 {items.length}
               </span>
             )}

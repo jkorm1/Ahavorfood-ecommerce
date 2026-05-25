@@ -22,6 +22,9 @@ export function Checkout() {
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const updateQuantity = useCart((state) => state.updateQuantity);
+  const removeItem = useCart((state) => state.removeItem);
+
   const total = getTotal();
   const hasItems = items.length > 0;
 
@@ -127,13 +130,71 @@ export function Checkout() {
                   key={item.id}
                   className="flex justify-between items-center p-4 bg-muted/50 rounded-2xl"
                 >
-                  <div>
+                  <div className="flex-1">
                     <p className="font-semibold text-secondary">
                       {item.categoryName}
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      {item.quantity}
-                    </p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (item.quantity > 1) {
+                            updateQuantity(item.id, item.quantity - 1);
+                          } else {
+                            removeItem(item.id);
+                          }
+                        }}
+                        className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors"
+                        disabled={isSubmitting}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M5 12h14" />
+                        </svg>
+                      </button>
+                      <span className="text-sm font-medium min-w-[20px] text-center">
+                        {item.quantity}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                        className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors"
+                        disabled={isSubmitting}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 5v14M5 12h14" />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeItem(item.id)}
+                        className="ml-2 text-xs text-red-500 hover:text-red-700 transition-colors"
+                        disabled={isSubmitting}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                   <p className="font-bold text-primary">
                     {(item.price * item.quantity).toFixed(2)} CEDIS
