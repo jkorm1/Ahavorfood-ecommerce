@@ -101,13 +101,6 @@ const showcaseVideos = [
     title: "Crafting Perfection",
     description: "Watch our artisans create perfect meals with passion.",
   },
-  {
-    id: 4,
-    src: "/video4.MOV",
-    thumbnail: "/thumbnail4.jpg",
-    title: "Healthy Living",
-    description: "See how Ahavor supports a healthy lifestyle.",
-  },
 ];
 
 export function Showcase() {
