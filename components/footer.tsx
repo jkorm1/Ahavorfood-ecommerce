@@ -94,7 +94,7 @@ export function Footer() {
                   href="#team"
                   className="hover:text-primary transition-colors"
                 >
-                  Our  Team
+                  Our Team
                 </a>
               </li>
               <li>
