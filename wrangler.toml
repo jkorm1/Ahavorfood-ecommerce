@@ -7,3 +7,9 @@ assets = { directory = ".open-next/assets", binding = "ASSETS" }
 [observability.logs]
 enabled = false
 invocation_logs = true
+
+[vars]
+GOOGLE_SHEET_ID = ""
+GOOGLE_SHEETS_CREDENTIALS = ""
+TELEGRAM_BOT_TOKEN = ""
+TELEGRAM_CHAT_ID = ""
