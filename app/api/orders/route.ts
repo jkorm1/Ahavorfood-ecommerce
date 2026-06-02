@@ -108,7 +108,10 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Error processing order:", error)
     return NextResponse.json(
-      { error: "Failed to process order" },
+      { 
+        error: "Failed to process order",
+        detail: error instanceof Error ? error.message : String(error)  // add this
+      },
       { status: 500 }
     )
   }
