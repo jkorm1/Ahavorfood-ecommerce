@@ -41,6 +41,11 @@ export function Products() {
     addItem(item);
     toast.success(`Added ${quantities[product.id]}x ${product.name} to cart!`);
     setQuantities({ ...quantities, [product.id]: 1 });
+
+    const checkoutElement = document.getElementById("checkout");
+    if (checkoutElement) {
+      checkoutElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
