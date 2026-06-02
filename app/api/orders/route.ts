@@ -11,6 +11,8 @@ async function getSheetsClient() {
   }
 
   const parsedCredentials = JSON.parse(credentials)
+  const privateKey = parsedCredentials.private_key.replace(/\\n/g, "\n"); // fix escaped newlines
+  
   const auth = new JWT({
     email: parsedCredentials.client_email,
     key: parsedCredentials.private_key,

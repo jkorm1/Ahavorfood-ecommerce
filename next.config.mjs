@@ -6,8 +6,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-    output: 'standalone',
-}
+  // 'standalone' is for Vercel. Cloudflare uses OpenNext which handles its own output.
+  // We only apply it when NOT building for Cloudflare.
+  ...(process.env.BUILD_TARGET !== "cloudflare" && {
+    output: "standalone",
+  }),
+};
 
-export default nextConfig
-
+export default nextConfig;
