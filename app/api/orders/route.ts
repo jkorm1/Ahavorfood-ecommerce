@@ -15,7 +15,7 @@ async function getSheetsClient() {
   
   const auth = new JWT({
     email: parsedCredentials.client_email,
-    key: parsedCredentials.private_key,
+    key: parsedCredentials.private_key.replace(/\\n/g, "\n"),
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   })
 
