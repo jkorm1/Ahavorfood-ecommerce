@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   try {
     const orderData = await request.json()
     const sheets = await getSheetsClient()
-    const spreadsheetId = process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID || process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID
 
     if (!spreadsheetId) {
       throw new Error("Google Sheet ID not configured")
