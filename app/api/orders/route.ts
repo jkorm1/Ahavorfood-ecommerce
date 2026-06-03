@@ -1,57 +1,44 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { google } from "googleapis"
+import { JWT } from "google-auth-library"
 import { sendOrderNotification } from "@/lib/telegram"
 
+// Works on Cloudflare (no prefix) and Vercel (NEXT_PUBLIC_ prefix)
+function getEnv(key: string): string | undefined {
+  return process.env[key] || process.env[`NEXT_PUBLIC_${key}`]
+}
+
 async function getSheetsClient() {
-  const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS
+  const credentials = getEnv("GOOGLE_SHEETS_CREDENTIALS")
   if (!credentials) {
     throw new Error("Google Sheets credentials not configured")
   }
 
-  try {
-    const parsedCredentials = JSON.parse(credentials)
-    
-    // Use google.auth.fromJSON() which properly handles the private key format
-    const auth = google.auth.fromJSON(parsedCredentials)
-    
-    return google.sheets({ version: "v4", auth })
-  } catch (error) {
-    console.error("[v0] Failed to create Sheets client:", error)
-    throw new Error(
-      `Failed to authenticate with Google Sheets: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }`
-    )
-  }
+  const parsedCredentials = JSON.parse(credentials)
+
+  const auth = new JWT({
+    email: parsedCredentials.client_email,
+    key: parsedCredentials.private_key.replace(/\\n/g, "\n"),
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  })
+
+  return google.sheets({ version: "v4", auth })
 }
 
 export async function POST(request: NextRequest) {
   try {
     const orderData = await request.json()
     const sheets = await getSheetsClient()
-    const spreadsheetId =
-      process.env.GOOGLE_SHEET_ID ||
-      process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID
+    const spreadsheetId = getEnv("GOOGLE_SHEET_ID")
 
     if (!spreadsheetId) {
       throw new Error("Google Sheet ID not configured")
     }
 
-    // Generate order ID
-    const orderId = `ORD-${Date.now()}-${Math.floor(
-      Math.random() * 1000
-    )}`
+    const orderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`
     const date = new Date()
-    const orderDate = `${date.getDate()}-${date.toLocaleString(
-      "default",
-      { month: "long" }
-    )}-${date.getFullYear()}; ${date.toLocaleTimeString("default", {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    })}`
+    const orderDate = `${date.getDate()}-${date.toLocaleString("default", { month: "long" })}-${date.getFullYear()}; ${date.toLocaleTimeString("default", { hour: "numeric", minute: "2-digit", hour12: true })}`
 
-    // Prepare order data for the Orders sheet
     const orderRow = [
       orderId,
       orderDate,
@@ -62,10 +49,9 @@ export async function POST(request: NextRequest) {
       JSON.stringify(orderData.items),
       orderData.total,
       orderData.note || "No note",
-      "Pending", // Initial status
+      "Pending",
     ]
 
-    // Add order to Orders sheet
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range: "Orders!A1",
@@ -74,10 +60,8 @@ export async function POST(request: NextRequest) {
       insertDataOption: "INSERT_ROWS",
     })
 
-    // Send SMS notification using the separated function
     await sendOrderNotification(orderData, orderId)
 
-    // Check if customer already exists in Customers sheet
     const customersResponse = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range: "Customers!A2:Z1000",
@@ -86,7 +70,6 @@ export async function POST(request: NextRequest) {
     const customers = customersResponse.data.values || []
     let customerExists = false
 
-    // Check if customer phone already exists
     for (let i = 0; i < customers.length; i++) {
       if (customers[i][1] === orderData.customer.phone) {
         customerExists = true
@@ -94,20 +77,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // If customer doesn't exist, add them to the Customers sheet
     if (!customerExists) {
       const customerRow = [
         orderData.customer.name,
         orderData.customer.phone,
         orderData.customer.address,
         `First order: ${orderId}`,
-        `${new Date().getDate()}-${new Date().toLocaleString(
-          "default",
-          { month: "long" }
-        )}-${new Date().getFullYear()}; ${new Date().toLocaleTimeString(
-          "default",
-          { hour: "numeric", minute: "2-digit", hour12: true }
-        )}`,
+        `${new Date().getDate()}-${new Date().toLocaleString("default", { month: "long" })}-${new Date().getFullYear()}; ${new Date().toLocaleTimeString("default", { hour: "numeric", minute: "2-digit", hour12: true })}`,
       ]
 
       await sheets.spreadsheets.values.append({
@@ -125,12 +101,11 @@ export async function POST(request: NextRequest) {
       message: "Order processed successfully",
     })
   } catch (error) {
-    console.error("[v0] Error processing order:", error)
+    console.error("Error processing order:", error)
     return NextResponse.json(
       {
         error: "Failed to process order",
-        detail:
-          error instanceof Error ? error.message : String(error),
+        detail: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     )

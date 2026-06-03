@@ -86,7 +86,7 @@ export function Footer() {
                   href="#story"
                   className="hover:text-primary transition-colors"
                 >
-                  About Uss
+                  About Us
                 </a>
               </li>
               <li>
