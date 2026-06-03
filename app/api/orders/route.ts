@@ -1,8 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { google } from "googleapis"
-import { JWT } from "google-auth-library"
 import { sendOrderNotification } from "@/lib/telegram"
-
 
 async function getSheetsClient() {
   const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS
@@ -10,32 +8,48 @@ async function getSheetsClient() {
     throw new Error("Google Sheets credentials not configured")
   }
 
-  const parsedCredentials = JSON.parse(credentials)
-  
-  const auth = new JWT({
-    email: parsedCredentials.client_email,
-    key: parsedCredentials.private_key.replace(/\\n/g, "\n"),
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  })
-
-  return google.sheets({ version: "v4", auth })
+  try {
+    const parsedCredentials = JSON.parse(credentials)
+    
+    // Use google.auth.fromJSON() which properly handles the private key format
+    const auth = google.auth.fromJSON(parsedCredentials)
+    
+    return google.sheets({ version: "v4", auth })
+  } catch (error) {
+    console.error("[v0] Failed to create Sheets client:", error)
+    throw new Error(
+      `Failed to authenticate with Google Sheets: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`
+    )
+  }
 }
 
 export async function POST(request: NextRequest) {
   try {
     const orderData = await request.json()
     const sheets = await getSheetsClient()
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID || process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID
+    const spreadsheetId =
+      process.env.GOOGLE_SHEET_ID ||
+      process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID
 
     if (!spreadsheetId) {
       throw new Error("Google Sheet ID not configured")
     }
 
     // Generate order ID
-    const orderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`
-    const date = new Date();
-    const orderDate = `${date.getDate()}-${date.toLocaleString('default', { month: 'long' })}-${date.getFullYear()}; ${date.toLocaleTimeString('default', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
-
+    const orderId = `ORD-${Date.now()}-${Math.floor(
+      Math.random() * 1000
+    )}`
+    const date = new Date()
+    const orderDate = `${date.getDate()}-${date.toLocaleString(
+      "default",
+      { month: "long" }
+    )}-${date.getFullYear()}; ${date.toLocaleTimeString("default", {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    })}`
 
     // Prepare order data for the Orders sheet
     const orderRow = [
@@ -43,7 +57,7 @@ export async function POST(request: NextRequest) {
       orderDate,
       orderData.customer.name,
       orderData.customer.phone,
-       orderData.customer.email,
+      orderData.customer.email,
       orderData.customer.address,
       JSON.stringify(orderData.items),
       orderData.total,
@@ -59,6 +73,7 @@ export async function POST(request: NextRequest) {
       requestBody: { values: [orderRow] },
       insertDataOption: "INSERT_ROWS",
     })
+
     // Send SMS notification using the separated function
     await sendOrderNotification(orderData, orderId)
 
@@ -86,8 +101,13 @@ export async function POST(request: NextRequest) {
         orderData.customer.phone,
         orderData.customer.address,
         `First order: ${orderId}`,
-       `${new Date().getDate()}-${new Date().toLocaleString('default', { month: 'long' })}-${new Date().getFullYear()}; ${new Date().toLocaleTimeString('default', { hour: 'numeric', minute: '2-digit', hour12: true })}`,
-
+        `${new Date().getDate()}-${new Date().toLocaleString(
+          "default",
+          { month: "long" }
+        )}-${new Date().getFullYear()}; ${new Date().toLocaleTimeString(
+          "default",
+          { hour: "numeric", minute: "2-digit", hour12: true }
+        )}`,
       ]
 
       await sheets.spreadsheets.values.append({
@@ -105,11 +125,12 @@ export async function POST(request: NextRequest) {
       message: "Order processed successfully",
     })
   } catch (error) {
-    console.error("Error processing order:", error)
+    console.error("[v0] Error processing order:", error)
     return NextResponse.json(
-      { 
+      {
         error: "Failed to process order",
-        detail: error instanceof Error ? error.message : String(error)  // add this
+        detail:
+          error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     )
