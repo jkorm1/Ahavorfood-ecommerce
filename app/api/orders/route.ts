@@ -1,21 +1,37 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { sendOrderNotification } from "@/lib/telegram"
 
+// Resolves env vars across Cloudflare (no prefix) and Vercel (NEXT_PUBLIC_ prefix)
+function getEnv(key: string): string | undefined {
+  return process.env[key] || process.env[`NEXT_PUBLIC_${key}`]
+}
+
 function toBase64Url(input: string | Uint8Array): string {
-  const str = typeof input === "string" ? input : String.fromCharCode(...new Uint8Array(input as Uint8Array))
+  const str = typeof input === "string"
+    ? input
+    : String.fromCharCode(...Array.from(input as Uint8Array))
   return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
 }
 
 async function getAccessToken(credentials: any): Promise<string> {
-  const now = Math.floor(Date.now() / 1000)
+  // Use Google's server time to avoid clock skew on Cloudflare Workers edge runtime
+  const timeProbe = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=dummy",
+  })
+  const serverDate = timeProbe.headers.get("date")
+  const serverTime = serverDate
+    ? Math.floor(new Date(serverDate).getTime() / 1000)
+    : Math.floor(Date.now() / 1000)
 
   const header = toBase64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }))
   const payload = toBase64Url(JSON.stringify({
     iss: credentials.client_email,
     scope: "https://www.googleapis.com/auth/spreadsheets",
     aud: "https://oauth2.googleapis.com/token",
-    exp: now + 3600,
-    iat: now,
+    exp: serverTime + 3600,
+    iat: serverTime,
   }))
 
   const signingInput = `${header}.${payload}`
@@ -84,11 +100,13 @@ async function sheetsGet(accessToken: string, spreadsheetId: string, range: stri
 export async function POST(request: NextRequest) {
   try {
     const orderData = await request.json()
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID
 
+    // Works on Cloudflare (GOOGLE_SHEET_ID) and Vercel (NEXT_PUBLIC_GOOGLE_SHEET_ID)
+    const spreadsheetId = getEnv("GOOGLE_SHEET_ID")
     if (!spreadsheetId) throw new Error("Google Sheet ID not configured")
 
-    const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS
+    // Works on Cloudflare (GOOGLE_SHEETS_CREDENTIALS) and Vercel (NEXT_PUBLIC_GOOGLE_SHEETS_CREDENTIALS)
+    const credentials = getEnv("GOOGLE_SHEETS_CREDENTIALS")
     if (!credentials) throw new Error("Google Sheets credentials not configured")
 
     const parsedCredentials = JSON.parse(credentials)
@@ -111,6 +129,7 @@ export async function POST(request: NextRequest) {
       "Pending",
     ]])
 
+    // Works on Cloudflare (TELEGRAM_BOT_TOKEN) and Vercel (NEXT_PUBLIC_TELEGRAM_BOT_TOKEN)
     await sendOrderNotification(orderData, orderId)
 
     const customersData = await sheetsGet(accessToken, spreadsheetId, "Customers!A2:Z1000")
