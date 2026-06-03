@@ -10,7 +10,8 @@ const config = {
   vars: {
     GOOGLE_SHEET_ID: process.env.GOOGLE_SHEET_ID || "",
     TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || "",
-  
+    TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || "",
+    GOOGLE_SHEETS_CREDENTIALS: process.env.GOOGLE_SHEETS_CREDENTIALS || "",
   },
 };
 
