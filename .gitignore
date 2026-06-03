@@ -17,3 +17,4 @@ node_modules
 
 .worker-next
 .open-next
+scripts/
