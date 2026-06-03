@@ -9,7 +9,13 @@ import { useCart } from "@/hooks/use-cart";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export function Checkout() {
+export function Checkout({
+  checkoutRef,
+}: {
+  checkoutRef?: React.RefObject<HTMLDivElement>;
+}) {
+  // ... 其余代码保持不变
+
   const items = useCart((state) => state.items);
   const getTotal = useCart((state) => state.getTotal);
   const clearCart = useCart((state) => state.clearCart);
@@ -91,228 +97,234 @@ export function Checkout() {
   }
 
   return (
-    <section id="checkout" className="py-16 px-4 md:px-8 max-w-4xl mx-auto">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-12"
+    <div ref={checkoutRef}>
+      <section
+        id="checkout"
+        ref={checkoutRef}
+        className="py-16 px-4 md:px-8 max-w-4xl mx-auto"
       >
-        <h2
-          className="text-4xl md:text-5xl font-bold mb-2 text-secondary"
-          style={{ fontFamily: "Nunito, sans-serif" }}
-        >
-          Your <span className="text-primary">Order</span>
-        </h2>
-        <p className="text-muted-foreground">
-          Review your items and complete checkout
-        </p>
-      </motion.div>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        {/* Order Summary */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="md:col-span-2"
+          className="text-center mb-12"
         >
-          <Card className="p-6 border-2 border-primary/20 rounded-3xl shadow-sm bg-card">
-            <h3
-              className="text-xl font-bold mb-4 text-secondary"
-              style={{ fontFamily: "Nunito, sans-serif" }}
-            >
-              Order Items
-            </h3>
-            <div className="space-y-3 mb-6">
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center p-4 bg-muted/50 rounded-2xl"
-                >
-                  <div className="flex-1">
-                    <p className="font-semibold text-secondary">
-                      {item.categoryName}
-                    </p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (item.quantity > 1) {
-                            updateQuantity(item.id, item.quantity - 1);
-                          } else {
-                            removeItem(item.id);
-                          }
-                        }}
-                        className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors"
-                        disabled={isSubmitting}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M5 12h14" />
-                        </svg>
-                      </button>
-                      <span className="text-sm font-medium min-w-[20px] text-center">
-                        {item.quantity}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
-                        className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors"
-                        disabled={isSubmitting}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M12 5v14M5 12h14" />
-                        </svg>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="ml-2 text-xs text-red-500 hover:text-red-700 transition-colors"
-                        disabled={isSubmitting}
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                  <p className="font-bold text-primary">
-                    {(item.price * item.quantity).toFixed(2)} CEDIS
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t border-border pt-4">
-              <div className="flex justify-between items-center">
-                <p className="text-lg font-bold text-secondary">Total:</p>
-                <p className="text-3xl font-bold text-primary">
-                  {total.toFixed(2)} CEDIS
-                </p>
-              </div>
-            </div>
-          </Card>
+          <h2
+            className="text-4xl md:text-5xl font-bold mb-2 text-secondary"
+            style={{ fontFamily: "Nunito, sans-serif" }}
+          >
+            Your <span className="text-primary">Order</span>
+          </h2>
+          <p className="text-muted-foreground">
+            Review your items and complete checkout
+          </p>
         </motion.div>
 
-        {/* Checkout Form */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Card className="p-6 border-2 border-secondary/20 rounded-3xl shadow-sm bg-card">
-            <h3
-              className="text-xl font-bold mb-4 text-secondary"
-              style={{ fontFamily: "Nunito, sans-serif" }}
-            >
-              Your Details
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-secondary">
-                  Name
-                </label>
-                <Input
-                  type="text"
-                  placeholder="Your name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full rounded-full border-border focus:border-primary"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-secondary">
-                  Location
-                </label>
-                <Input
-                  type="text"
-                  placeholder="e.g. KNUST, Kumasi"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full rounded-full border-border focus:border-primary"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-secondary">
-                  Contact
-                </label>
-                <Input
-                  type="tel"
-                  placeholder="Phone number"
-                  value={contact}
-                  onChange={(e) => setContact(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full rounded-full border-border focus:border-primary"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-secondary">
-                  Email
-                </label>
-                <Input
-                  type="email"
-                  placeholder="Your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full rounded-full border-border focus:border-primary"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold block mb-2 text-secondary">
-                  Order Note (Optional)
-                </label>
-                <textarea
-                  placeholder="Any special requests?"
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
-                  disabled={isSubmitting}
-                  className="w-full px-4 py-3 rounded-2xl bg-input border border-border focus:border-primary outline-none transition-colors resize-none text-sm"
-                  rows={3}
-                />
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-primary hover:bg-primary/90 font-bold py-6 text-lg rounded-full shadow-glow-primary transition-all"
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Order Summary */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="md:col-span-2"
+          >
+            <Card className="p-6 border-2 border-primary/20 rounded-3xl shadow-sm bg-card">
+              <h3
+                className="text-xl font-bold mb-4 text-secondary"
                 style={{ fontFamily: "Nunito, sans-serif" }}
               >
-                {isSubmitting ? "Submitting..." : "Complete Order"}
-              </Button>
-            </form>
-          </Card>
-        </motion.div>
-      </div>
-    </section>
+                Order Items
+              </h3>
+              <div className="space-y-3 mb-6">
+                {items.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex justify-between items-center p-4 bg-muted/50 rounded-2xl"
+                  >
+                    <div className="flex-1">
+                      <p className="font-semibold text-secondary">
+                        {item.categoryName}
+                      </p>
+                      <div className="flex items-center gap-3 mt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (item.quantity > 1) {
+                              updateQuantity(item.id, item.quantity - 1);
+                            } else {
+                              removeItem(item.id);
+                            }
+                          }}
+                          className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors"
+                          disabled={isSubmitting}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M5 12h14" />
+                          </svg>
+                        </button>
+                        <span className="text-sm font-medium min-w-[20px] text-center">
+                          {item.quantity}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            updateQuantity(item.id, item.quantity + 1)
+                          }
+                          className="w-8 h-8 rounded-full bg-primary/10 hover:bg-primary/20 text-primary flex items-center justify-center transition-colors"
+                          disabled={isSubmitting}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M12 5v14M5 12h14" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.id)}
+                          className="ml-2 text-xs text-red-500 hover:text-red-700 transition-colors"
+                          disabled={isSubmitting}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                    <p className="font-bold text-primary">
+                      {(item.price * item.quantity).toFixed(2)} CEDIS
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="border-t border-border pt-4">
+                <div className="flex justify-between items-center">
+                  <p className="text-lg font-bold text-secondary">Total:</p>
+                  <p className="text-3xl font-bold text-primary">
+                    {total.toFixed(2)} CEDIS
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+
+          {/* Checkout Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Card className="p-6 border-2 border-secondary/20 rounded-3xl shadow-sm bg-card">
+              <h3
+                className="text-xl font-bold mb-4 text-secondary"
+                style={{ fontFamily: "Nunito, sans-serif" }}
+              >
+                Your Details
+              </h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-sm font-semibold block mb-2 text-secondary">
+                    Name
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="Your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full rounded-full border-border focus:border-primary"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold block mb-2 text-secondary">
+                    Location
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="e.g. KNUST, Kumasi"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full rounded-full border-border focus:border-primary"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold block mb-2 text-secondary">
+                    Contact
+                  </label>
+                  <Input
+                    type="tel"
+                    placeholder="Phone number"
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full rounded-full border-border focus:border-primary"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold block mb-2 text-secondary">
+                    Email
+                  </label>
+                  <Input
+                    type="email"
+                    placeholder="Your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full rounded-full border-border focus:border-primary"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-semibold block mb-2 text-secondary">
+                    Order Note (Optional)
+                  </label>
+                  <textarea
+                    placeholder="Any special requests?"
+                    value={note}
+                    onChange={(e) => setNote(e.target.value)}
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-3 rounded-2xl bg-input border border-border focus:border-primary outline-none transition-colors resize-none text-sm"
+                    rows={3}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary hover:bg-primary/90 font-bold py-6 text-lg rounded-full shadow-glow-primary transition-all"
+                  style={{ fontFamily: "Nunito, sans-serif" }}
+                >
+                  {isSubmitting ? "Submitting..." : "Complete Order"}
+                </Button>
+              </form>
+            </Card>
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
 }

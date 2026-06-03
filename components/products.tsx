@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,10 +42,12 @@ export function Products() {
     toast.success(`Added ${quantities[product.id]}x ${product.name} to cart!`);
     setQuantities({ ...quantities, [product.id]: 1 });
 
-    const checkoutElement = document.getElementById("checkout");
-    if (checkoutElement) {
-      checkoutElement.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    setTimeout(() => {
+      const checkoutElement = document.getElementById("checkout");
+      if (checkoutElement) {
+        checkoutElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   };
 
   return (
