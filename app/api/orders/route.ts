@@ -1,11 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { sendOrderNotification } from "@/lib/telegram"
 
+function toBase64Url(input: string | Uint8Array): string {
+  const str = typeof input === "string" ? input : String.fromCharCode(...new Uint8Array(input as Uint8Array))
+  return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+}
+
 async function getAccessToken(credentials: any): Promise<string> {
   const now = Math.floor(Date.now() / 1000)
-  
-  const header = btoa(JSON.stringify({ alg: "RS256", typ: "JWT" }))
-  const payload = btoa(JSON.stringify({
+
+  const header = toBase64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }))
+  const payload = toBase64Url(JSON.stringify({
     iss: credentials.client_email,
     scope: "https://www.googleapis.com/auth/spreadsheets",
     aud: "https://oauth2.googleapis.com/token",
@@ -14,16 +19,15 @@ async function getAccessToken(credentials: any): Promise<string> {
   }))
 
   const signingInput = `${header}.${payload}`
-  
-  // Import the private key
+
   const privateKey = credentials.private_key.replace(/\\n/g, "\n")
   const pemContents = privateKey
     .replace("-----BEGIN PRIVATE KEY-----", "")
     .replace("-----END PRIVATE KEY-----", "")
     .replace(/\s/g, "")
-  
+
   const binaryKey = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0))
-  
+
   const cryptoKey = await crypto.subtle.importKey(
     "pkcs8",
     binaryKey,
@@ -31,21 +35,21 @@ async function getAccessToken(credentials: any): Promise<string> {
     false,
     ["sign"]
   )
-  
-  const signature = await crypto.subtle.sign(
+
+  const signatureBuffer = await crypto.subtle.sign(
     "RSASSA-PKCS1-v1_5",
     cryptoKey,
     new TextEncoder().encode(signingInput)
   )
-  
-  const jwt = `${signingInput}.${btoa(String.fromCharCode(...new Uint8Array(signature)))}`
-  
+
+  const jwt = `${signingInput}.${toBase64Url(new Uint8Array(signatureBuffer))}`
+
   const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
   })
-  
+
   const tokenData = await tokenResponse.json() as any
   if (!tokenData.access_token) {
     throw new Error(`Failed to get access token: ${JSON.stringify(tokenData)}`)
