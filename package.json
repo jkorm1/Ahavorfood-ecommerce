@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "cf:deploy": "BUILD_TARGET=cloudflare opennextjs-cloudflare build && wrangler deploy",
-    "cf:preview": "BUILD_TARGET=cloudflare opennextjs-cloudflare build && wrangler dev"
+    "cf:deploy": "node scripts/generate-wrangler.mjs && BUILD_TARGET=cloudflare opennextjs-cloudflare build && wrangler deploy",
+    "cf:preview": "node scripts/generate-wrangler.mjs && BUILD_TARGET=cloudflare opennextjs-cloudflare build && wrangler dev"
+
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
