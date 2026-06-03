@@ -1,116 +1,133 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { google } from "googleapis"
-import { JWT } from "google-auth-library"
 import { sendOrderNotification } from "@/lib/telegram"
 
-
-async function getSheetsClient() {
-  const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS
-  if (!credentials) {
-    throw new Error("Google Sheets credentials not configured")
-  }
-
-  const parsedCredentials = JSON.parse(credentials)
+async function getAccessToken(credentials: any): Promise<string> {
+  const now = Math.floor(Date.now() / 1000)
   
-  const auth = new JWT({
-    email: parsedCredentials.client_email,
-    key: parsedCredentials.private_key.replace(/\\n/g, "\n"),
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-  })
+  const header = btoa(JSON.stringify({ alg: "RS256", typ: "JWT" }))
+  const payload = btoa(JSON.stringify({
+    iss: credentials.client_email,
+    scope: "https://www.googleapis.com/auth/spreadsheets",
+    aud: "https://oauth2.googleapis.com/token",
+    exp: now + 3600,
+    iat: now,
+  }))
 
-  return google.sheets({ version: "v4", auth })
+  const signingInput = `${header}.${payload}`
+  
+  // Import the private key
+  const privateKey = credentials.private_key.replace(/\\n/g, "\n")
+  const pemContents = privateKey
+    .replace("-----BEGIN PRIVATE KEY-----", "")
+    .replace("-----END PRIVATE KEY-----", "")
+    .replace(/\s/g, "")
+  
+  const binaryKey = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0))
+  
+  const cryptoKey = await crypto.subtle.importKey(
+    "pkcs8",
+    binaryKey,
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["sign"]
+  )
+  
+  const signature = await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5",
+    cryptoKey,
+    new TextEncoder().encode(signingInput)
+  )
+  
+  const jwt = `${signingInput}.${btoa(String.fromCharCode(...new Uint8Array(signature)))}`
+  
+  const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion=${jwt}`,
+  })
+  
+  const tokenData = await tokenResponse.json() as any
+  if (!tokenData.access_token) {
+    throw new Error(`Failed to get access token: ${JSON.stringify(tokenData)}`)
+  }
+  return tokenData.access_token
+}
+
+async function sheetsAppend(accessToken: string, spreadsheetId: string, range: string, values: any[][]) {
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ values }),
+    }
+  )
+  if (!res.ok) throw new Error(`Sheets append failed: ${await res.text()}`)
+}
+
+async function sheetsGet(accessToken: string, spreadsheetId: string, range: string) {
+  const res = await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${encodeURIComponent(range)}`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
+  )
+  if (!res.ok) throw new Error(`Sheets get failed: ${await res.text()}`)
+  return res.json() as any
 }
 
 export async function POST(request: NextRequest) {
   try {
     const orderData = await request.json()
-    const sheets = await getSheetsClient()
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID || process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID
 
-    if (!spreadsheetId) {
-      throw new Error("Google Sheet ID not configured")
-    }
+    if (!spreadsheetId) throw new Error("Google Sheet ID not configured")
 
-    // Generate order ID
+    const credentials = process.env.GOOGLE_SHEETS_CREDENTIALS
+    if (!credentials) throw new Error("Google Sheets credentials not configured")
+
+    const parsedCredentials = JSON.parse(credentials)
+    const accessToken = await getAccessToken(parsedCredentials)
+
     const orderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`
-    const date = new Date();
-    const orderDate = `${date.getDate()}-${date.toLocaleString('default', { month: 'long' })}-${date.getFullYear()}; ${date.toLocaleTimeString('default', { hour: 'numeric', minute: '2-digit', hour12: true })}`;
+    const date = new Date()
+    const orderDate = `${date.getDate()}-${date.toLocaleString("default", { month: "long" })}-${date.getFullYear()}; ${date.toLocaleTimeString("default", { hour: "numeric", minute: "2-digit", hour12: true })}`
 
-
-    // Prepare order data for the Orders sheet
-    const orderRow = [
+    await sheetsAppend(accessToken, spreadsheetId, "Orders!A1", [[
       orderId,
       orderDate,
       orderData.customer.name,
       orderData.customer.phone,
-       orderData.customer.email,
+      orderData.customer.email,
       orderData.customer.address,
       JSON.stringify(orderData.items),
       orderData.total,
       orderData.note || "No note",
-      "Pending", // Initial status
-    ]
+      "Pending",
+    ]])
 
-    // Add order to Orders sheet
-    await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: "Orders!A1",
-      valueInputOption: "USER_ENTERED",
-      requestBody: { values: [orderRow] },
-      insertDataOption: "INSERT_ROWS",
-    })
-    // Send SMS notification using the separated function
     await sendOrderNotification(orderData, orderId)
 
-    // Check if customer already exists in Customers sheet
-    const customersResponse = await sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range: "Customers!A2:Z1000",
-    })
+    const customersData = await sheetsGet(accessToken, spreadsheetId, "Customers!A2:Z1000")
+    const customers = customersData.values || []
+    const customerExists = customers.some((row: any[]) => row[1] === orderData.customer.phone)
 
-    const customers = customersResponse.data.values || []
-    let customerExists = false
-
-    // Check if customer phone already exists
-    for (let i = 0; i < customers.length; i++) {
-      if (customers[i][1] === orderData.customer.phone) {
-        customerExists = true
-        break
-      }
-    }
-
-    // If customer doesn't exist, add them to the Customers sheet
     if (!customerExists) {
-      const customerRow = [
+      await sheetsAppend(accessToken, spreadsheetId, "Customers!A1", [[
         orderData.customer.name,
         orderData.customer.phone,
         orderData.customer.address,
         `First order: ${orderId}`,
-       `${new Date().getDate()}-${new Date().toLocaleString('default', { month: 'long' })}-${new Date().getFullYear()}; ${new Date().toLocaleTimeString('default', { hour: 'numeric', minute: '2-digit', hour12: true })}`,
-
-      ]
-
-      await sheets.spreadsheets.values.append({
-        spreadsheetId,
-        range: "Customers!A1",
-        valueInputOption: "USER_ENTERED",
-        requestBody: { values: [customerRow] },
-        insertDataOption: "INSERT_ROWS",
-      })
+        orderDate,
+      ]])
     }
 
-    return NextResponse.json({
-      success: true,
-      orderId,
-      message: "Order processed successfully",
-    })
+    return NextResponse.json({ success: true, orderId, message: "Order processed successfully" })
   } catch (error) {
     console.error("Error processing order:", error)
     return NextResponse.json(
-      { 
-        error: "Failed to process order",
-        detail: error instanceof Error ? error.message : String(error)  // add this
-      },
+      { error: "Failed to process order", detail: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     )
   }
