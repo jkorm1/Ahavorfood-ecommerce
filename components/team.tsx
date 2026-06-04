@@ -20,7 +20,7 @@ const heads = [
     image: "/kofi.jpg",
     members: [
       {
-        name: "Bro Taufik & Nathaniel",
+        name: "Taufik Yussif & Nathaniel",
         role: "Operations",
         description: "Dedicated team members ensuring smooth daily operations.",
         images: ["/taufik.jpg", "/nathaniel.jpg"],
@@ -35,10 +35,10 @@ const heads = [
     image: "/josephine.jpg",
     members: [
       {
-        name: "Peace Mensah",
+        name: "Peace Mensah & Setordzi",
         role: "Sales and Distribution",
         description: "Supporting sales efforts and customer satisfaction.",
-        image: "/peace.jpg",
+        images: ["/peace.jpg", "/setordzi.jpg"],
       },
     ],
   },

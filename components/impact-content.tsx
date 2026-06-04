@@ -80,7 +80,12 @@ export function ImpactContent() {
       description:
         "Ahavor proudly represented at the KNUST Food Festival 2026, and it was an incredible experience. Festival attendees tasted Ahavor Tombrown for the very first time — and the response was overwhelming. At the festival, we didn’t just exhibit; we served, we shared, and we let people truly experience Ahavor. Because Ahavor is more than food. It is vision. It is impact. It is purpose. Seeing people light up with satisfaction after tasting Ahavor Tombrown reminds us why we do what we do.",
       stats: "2026",
-      images: ["/impact15.jpg", "/impact16.jpg", "/impact17.jpg"],
+      images: [
+        "/impact15.jpg",
+        "/impact44.jpg",
+        "/impact45.jpg",
+        "/impact43.jpg",
+      ],
     },
     {
       id: 5,
