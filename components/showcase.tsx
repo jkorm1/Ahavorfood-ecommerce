@@ -81,7 +81,7 @@ const showcaseImages = [
 const showcaseVideos = [
   {
     id: 1,
-    src: "/video1.MOV",
+    src: "https://res.cloudinary.com/lnfrzx0q/video/upload/v1791941833/copy_1F9C4EA1-E229-4B06-A8FB-E8042B9759A8.mov",
     thumbnail: "/thumbnail1.jpg",
     title: "International Endorsement of Ahavor",
     description: "International guests endorse and enjoy Ahavor Tombrown.",
@@ -97,15 +97,15 @@ const showcaseVideos = [
 
   {
     id: 3,
-    src: "/video3.MOV",
-    thumbnail: "/thumbnail3.jpg",
+    src: "https://res.cloudinary.com/lnfrzx0q/video/upload/v1791941910/copy_6BD84BFC-F9E8-47DD-B49A-34DEF5428FF5.mov",
+    thumbnail: "/thumbnail3 (2).jpg",
     title: "Lecturer Endorses Ahavor",
     description: " Lecturers share trust and joy in Ahavor Tombrown, .",
   },
   {
     id: 4,
-    src: "/video4.MOV",
-    thumbnail: "/thumbnail4.jpg",
+    src: "https://res.cloudinary.com/lnfrzx0q/video/upload/v1791942212/copy_A8AF8BFC-324F-4A46-99B4-18925B0E6D55.mov",
+    thumbnail: "/thumbnail3 dcn.jpg",
     title: "Crafting Perfection",
     description: "Watch our artisans create perfect meals with passion.",
   },
