@@ -7,6 +7,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
   title: "Ahavor Foods - Nourishing Lives. Empowering Futures.",
   description:
     "Ahavor Foods produces nutritious, affordable, and culturally rooted food products like Tombrown to support healthy living and sustainable impact.",
@@ -46,8 +49,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans antialiased">
+    <html lang="en" data-scroll-behavior="smooth">
+      <body className="relative font-sans antialiased">
         {/* Ahavor Watermark - Fixed, Unscrollable, Subtle */}
         <div className="fixed inset-0 z-[-1] flex items-center justify-center pointer-events-none select-none overflow-hidden">
           <div className="relative w-[80vw] h-[80vw] md:w-[60vw] md:h-[60vw] opacity-[0.04] flex items-center justify-center">
